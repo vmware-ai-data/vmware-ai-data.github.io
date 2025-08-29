@@ -11,4 +11,7 @@ permalink: /programs/
   {% for post in site.categories.VMUG %}
     <li><a href="{{ post.url }}">{{ post.title }}</a></li>
   {% endfor %}
+  {% for post in site.categories.code %}
+    <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+  {% endfor %}
 {% endfor %}
