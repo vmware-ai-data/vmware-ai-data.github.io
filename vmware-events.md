@@ -1,7 +1,7 @@
 ---
 layout: page
 title: "VMware events"
-permalink: /evetns/
+permalink: /events/
 ---
 <h2>All VMware Event Articles</h2>
 <ul>
