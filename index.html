@@ -1,0 +1,439 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VMware Catalog Explorer</title>
+  <meta name="description" content="Browse VMware Products, Events, Platforms, and Programs." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind (CDN build) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ["Inter", "ui-sans-serif", "system-ui"] },
+          boxShadow: { soft: "0 8px 24px rgba(0,0,0,.08)" },
+          borderRadius: { xl2: "1.25rem" }
+        }
+      }
+    }
+  </script>
+
+  <!-- React & ReactDOM (Production UMD) -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/J6Md0GqkYyZ3h5GkG4f5dR0b1zQJfQk2gXgGm0Y0aR1h3x9Yb7S6V7Q7l3i0wJ9v6jQK3A3Yw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    html, body { height: 100%; }
+    ::selection { background:#0ea5e9; color:white; }
+    .scroll-smooth { scroll-behavior: smooth; }
+  </style>
+</head>
+<body class="scroll-smooth bg-slate-50 text-slate-900">
+  <div id="root"></div>
+
+  <!-- App code -->
+  <script type="text/javascript" src="./app.js"></script>
+</body>
+</html>
+```
+
+---
+
+## `/vmware-catalog/app.js`
+
+```javascript
+/*
+  VMware Catalog Explorer
+  - Pure client-side React 18 app (UMD) + Tailwind CDN
+  - No build tools required
+  - Features: search, filters, collapsible sections, copy/export, deep-linking
+*/
+
+(function () {
+  const { useMemo, useState, useEffect, useRef } = React;
+
+  // -----------------
+  // Data Definition
+  // -----------------
+  const DATA = {
+    categories: [
+      {
+        group: "VMware Products",
+        items: [
+          {
+            name: "VCF",
+            type: "Product",
+            children: [
+              { name: "Aria Operations Dashboards", type: "Component" },
+              { name: "Aria Suite Universal License", type: "Component" },
+              { name: "Fleet Management – APIs", type: "Component" },
+              { name: "Fleet Management – Compliance & Drift Detection", type: "Component" },
+              { name: "Fleet Management – Expansion / Scale-Out", type: "Component" },
+              { name: "Fleet Management – Lifecycle Management", type: "Component" },
+              { name: "Fleet Management – Multi-Instance Visibility", type: "Component" },
+              { name: "Fleet Management – Workload Domain Management", type: "Component" },
+              { name: "NSX Distributed Firewall", type: "Component" },
+              { name: "NSX Edge Nodes", type: "Component" },
+              { name: "NSX Federation", type: "Component" },
+              { name: "NSX Gateway Firewall", type: "Component" },
+              { name: "NSX Intelligence", type: "Component" },
+              { name: "NSX NAT Services", type: "Component" },
+              { name: "NSX Tier-0 Gateway", type: "Component" },
+              { name: "NSX Tier-1 Gateway", type: "Component" },
+              { name: "NSX VPN Services", type: "Component" },
+              { name: "SDDC Manager", type: "Component" },
+              { name: "Site Recovery Manager (SRM)", type: "Component" },
+              { name: "Tanzu Application Platform (TAP)", type: "Component" },
+              { name: "Tanzu Data Solutions", type: "Component" },
+              { name: "Tanzu Guest Cluster", type: "Component" },
+              { name: "Tanzu Kubernetes Grid (TKG)", type: "Component" },
+              { name: "Tanzu Mission Control", type: "Component" },
+              { name: "Tanzu Service Mesh", type: "Component" },
+              { name: "Tanzu Supervisor Cluster", type: "Component" },
+              { name: "vCenter Server", type: "Component" },
+              { name: "VCF Automation & APIs", type: "Component" },
+              { name: "VCF Backup & Restore", type: "Component" },
+              { name: "VCF Certificate Management", type: "Component" },
+              { name: "VCF Compliance & Security Hardening", type: "Component" },
+              { name: "VCF Consolidated Architecture", type: "Component" },
+              { name: "VCF Deployment", type: "Component" },
+              { name: "VCF Edge Deployments", type: "Component" },
+              { name: "VCF Expansion", type: "Component" },
+              { name: "VCF Licensing & RBAC", type: "Component" },
+              { name: "VCF Logging & Audit", type: "Component" },
+              { name: "VCF Monitoring & Alerting", type: "Component" },
+              { name: "VCF Troubleshooting", type: "Component" },
+              { name: "VCF Upgrade", type: "Component" },
+              { name: "VMware Cloud Disaster Recovery", type: "Component" },
+              { name: "VMware HCX", type: "Component" },
+              { name: "vSAN", type: "Component" },
+              { name: "vSphere", type: "Component" },
+              { name: "vSphere Distributed Switch", type: "Component" },
+              { name: "vSphere with Tanzu", type: "Component" }
+            ]
+          },
+          {
+            name: "Other VMware Products",
+            type: "Product",
+            children: [
+              { name: "vSphere Standard", type: "Product" },
+              { name: "vSphere Enterprise Plus", type: "Product" },
+              { name: "VMware Tools", type: "Product" },
+              { name: "vSAN+", type: "Product" },
+              { name: "vSphere+", type: "Product" },
+              { name: "Workstation", type: "Product" },
+              { name: "Fusion", type: "Product" },
+              { name: "NSX", type: "Product" },
+              { name: "HCX", type: "Product" },
+              { name: "SD-WAN", type: "Product" },
+              { name: "Avi Load Balancer", type: "Product" },
+              { name: "Flings", type: "Product" }
+            ]
+          }
+        ]
+      },
+      {
+        group: "VMware Events",
+        items: [ { name: "VMware Explore", type: "Event" } ]
+      },
+      {
+        group: "VMUG Events",
+        items: [
+          { name: "VMUG Connect", type: "Event" },
+          { name: "VMUG UserCons", type: "Event" },
+          { name: "Local Chapter Meetings", type: "Event" },
+          { name: "Webinars and Webcasts", type: "Event" },
+          { name: "Virtual Conferences", type: "Event" }
+        ]
+      },
+      {
+        group: "VMware Platforms",
+        items: [ { name: "VMware Social Media Advocacy", type: "Platform" } ]
+      },
+      {
+        group: "VMware Programs",
+        items: [
+          { name: "VMware vExpert", type: "Program" },
+          { name: "VMware {code}", type: "Program" },
+          { name: "VMware Rewards", type: "Program" },
+          { name: "VMUG", type: "Program" }
+        ]
+      }
+    ]
+  };
+
+  // Flatten helper for search/export
+  function flattenCatalog(data) {
+    const rows = [];
+    data.categories.forEach(cat => {
+      cat.items.forEach(item => {
+        if (item.children && item.children.length) {
+          item.children.forEach(child => {
+            rows.push({ group: cat.group, parent: item.name, name: child.name, type: child.type });
+          });
+        } else {
+          rows.push({ group: cat.group, parent: "", name: item.name, type: item.type });
+        }
+      });
+    });
+    return rows;
+  }
+
+  // CSV export
+  function exportCSV(rows, filename = "vmware_catalog.csv") {
+    const header = ["Group", "Parent", "Name", "Type"];
+    const lines = [header.join(",")].concat(
+      rows.map(r => [r.group, r.parent, r.name, r.type]
+        .map(v => '"' + String(v ?? "").replaceAll('"', '""') + '"').join(","))
+    );
+    const blob = new Blob(["\ufeff" + lines.join("\n")], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = filename; a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  // Copy list as text
+  async function copyText(str) {
+    try { await navigator.clipboard.writeText(str); return true; } catch { return false; }
+  }
+
+  // Collapsible Section component
+  function Section({ id, title, count, children, defaultOpen = true }) {
+    const [open, setOpen] = useState(defaultOpen);
+    useEffect(() => {
+      // Open a section if its id is in the hash
+      const hash = decodeURIComponent(location.hash.replace('#',''));
+      if (hash && hash === id) setOpen(true);
+    }, [id]);
+
+    return (
+      React.createElement('section', { id, className: "bg-white shadow-soft rounded-xl2 p-5" },
+        React.createElement('button', {
+          className: "w-full flex items-center justify-between text-left",
+          onClick: () => setOpen(o => !o),
+          'aria-expanded': open
+        },
+          React.createElement('div', { className: "flex items-center gap-3" },
+            React.createElement('span', { className: "inline-flex items-center justify-center w-8 h-8 rounded-full bg-sky-100 text-sky-700" },
+              React.createElement('i', { className: `fa-solid ${open ? 'fa-folder-open' : 'fa-folder'}` })
+            ),
+            React.createElement('h2', { className: "text-xl font-semibold" }, title)
+          ),
+          React.createElement('div', { className: "text-sm text-slate-500" }, `${count} items`)
+        ),
+        open && React.createElement('div', { className: "mt-4" }, children)
+      )
+    );
+  }
+
+  function Tag({ children }) {
+    return React.createElement('span', { className: "inline-flex items-center px-2 py-1 text-xs font-medium bg-slate-100 text-slate-700 rounded-full" }, children);
+  }
+
+  function Pill({ label, active, onClick }) {
+    return (
+      React.createElement('button', {
+        onClick,
+        className: `px-3 py-1.5 rounded-full border text-sm ${active ? 'bg-sky-600 text-white border-sky-600' : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'}`
+      }, label)
+    );
+  }
+
+  function App() {
+    const allRows = useMemo(() => flattenCatalog(DATA), []);
+    const [query, setQuery] = useState("");
+    const [types, setTypes] = useState({ Product: true, Component: true, Event: true, Program: true, Platform: true });
+    const [expandedAll, setExpandedAll] = useState(true);
+    const mounted = useRef(false);
+
+    // Deep link search via ?q=
+    useEffect(() => {
+      if (mounted.current) return;
+      const params = new URLSearchParams(location.search);
+      const q = params.get('q');
+      if (q) setQuery(q);
+      mounted.current = true;
+    }, []);
+
+    const filteredRows = useMemo(() => {
+      const q = query.trim().toLowerCase();
+      return allRows.filter(r => types[r.type] && (!q || (r.name.toLowerCase().includes(q) || r.group.toLowerCase().includes(q) || r.parent.toLowerCase().includes(q))));
+    }, [allRows, query, types]);
+
+    // Rebuild grouped view based on filters
+    const grouped = useMemo(() => {
+      const byGroup = {};
+      filteredRows.forEach(r => {
+        byGroup[r.group] = byGroup[r.group] || {};
+        const parent = r.parent || r.name;
+        byGroup[r.group][parent] = byGroup[r.group][parent] || [];
+        if (r.parent) byGroup[r.group][parent].push(r);
+      });
+      return byGroup;
+    }, [filteredRows]);
+
+    function toggleType(t) { setTypes(prev => ({ ...prev, [t]: !prev[t] })); }
+
+    function handleExport() { exportCSV(filteredRows); }
+
+    async function handleCopyPlain() {
+      const lines = filteredRows.map(r => `${r.group}\t${r.parent}\t${r.name}\t${r.type}`).join("\n");
+      const ok = await copyText(lines);
+      alert(ok ? "Copied to clipboard" : "Copy failed");
+    }
+
+    function expandAll(val) {
+      setExpandedAll(val);
+      // Broadcast an event to all sections (simple approach: toggle hash to open on first render; here we just store state)
+    }
+
+    const typeOrder = ["Product", "Component", "Event", "Program", "Platform"];
+
+    return (
+      React.createElement('div', { className: "min-h-screen" },
+        // Header
+        React.createElement('header', { className: "sticky top-0 z-40 backdrop-blur bg-slate-50/80 border-b border-slate-200" },
+          React.createElement('div', { className: "max-w-7xl mx-auto px-4 py-4 flex items-center justify-between" },
+            React.createElement('div', { className: "flex items-center gap-3" },
+              React.createElement('span', { className: "inline-flex w-10 h-10 items-center justify-center rounded-xl bg-sky-600 text-white shadow-soft" },
+                React.createElement('i', { className: "fa-solid fa-cubes" })
+              ),
+              React.createElement('div', null,
+                React.createElement('h1', { className: "text-2xl font-bold leading-tight" }, "VMware Catalog Explorer"),
+                React.createElement('p', { className: "text-sm text-slate-600" }, "Products, Events, Platforms, and Programs")
+              )
+            ),
+            React.createElement('div', { className: "flex items-center gap-2" },
+              React.createElement('button', { onClick: () => expandAll(true), className: "px-3 py-2 rounded-lg border bg-white hover:bg-slate-50" }, "Expand All"),
+              React.createElement('button', { onClick: () => expandAll(false), className: "px-3 py-2 rounded-lg border bg-white hover:bg-slate-50" }, "Collapse All"),
+              React.createElement('button', { onClick: handleCopyPlain, className: "px-3 py-2 rounded-lg border bg-white hover:bg-slate-50" }, "Copy List"),
+              React.createElement('button', { onClick: handleExport, className: "px-3 py-2 rounded-lg text-white bg-sky-600 hover:bg-sky-700" }, "Export CSV")
+            )
+          )
+        ),
+
+        // Main
+        React.createElement('main', { className: "max-w-7xl mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-4 gap-6" },
+          // Sidebar filters
+          React.createElement('aside', { className: "lg:col-span-1" },
+            React.createElement('div', { className: "bg-white rounded-xl2 shadow-soft p-5 space-y-5" },
+              React.createElement('div', null,
+                React.createElement('label', { htmlFor: "search", className: "block text-sm font-medium text-slate-700 mb-2" }, "Search"),
+                React.createElement('div', { className: "relative" },
+                  React.createElement('input', {
+                    id: 'search',
+                    value: query,
+                    onChange: e => setQuery(e.target.value),
+                    placeholder: 'Search across all items…',
+                    className: "w-full rounded-lg border border-slate-300 px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                  }),
+                  React.createElement('i', { className: "fa-solid fa-magnifying-glass absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" })
+                )
+              ),
+              React.createElement('div', null,
+                React.createElement('div', { className: "text-sm font-medium text-slate-700 mb-2" }, "Types"),
+                React.createElement('div', { className: "flex flex-wrap gap-2" },
+                  typeOrder.map(t => (
+                    React.createElement(Pill, { key: t, label: t, active: !!types[t], onClick: () => toggleType(t) })
+                  ))
+                )
+              ),
+              React.createElement('div', null,
+                React.createElement('div', { className: "text-sm font-medium text-slate-700 mb-2" }, "Stats"),
+                React.createElement('ul', { className: "text-sm text-slate-600 space-y-1" },
+                  React.createElement('li', null, `Total entries: ${allRows.length}`),
+                  React.createElement('li', null, `Filtered: ${filteredRows.length}`)
+                )
+              )
+            )
+          ),
+
+          // Content
+          React.createElement('div', { className: "lg:col-span-3 space-y-6" },
+            Object.entries(grouped).map(([groupName, parents]) => (
+              React.createElement(Section, {
+                key: groupName,
+                id: groupName.toLowerCase().replace(/\s+/g, '-'),
+                title: groupName,
+                count: Object.values(parents).reduce((acc, arr) => acc + (arr.length || 1), 0),
+                defaultOpen: expandedAll
+              },
+                React.createElement('div', { className: "space-y-4" },
+                  Object.entries(parents).map(([parentName, children]) => (
+                    React.createElement('div', { key: parentName, className: "border border-slate-200 rounded-lg p-4" },
+                      React.createElement('div', { className: "flex items-center justify-between" },
+                        React.createElement('div', { className: "font-semibold" }, parentName || "(Item)"),
+                        React.createElement(Tag, null, children.length ? `${children.length} items` : 'Item')
+                      ),
+                      children.length > 0 && React.createElement('ul', { className: "mt-3 grid md:grid-cols-2 gap-2" },
+                        children.map((c) => (
+                          React.createElement('li', { key: c.name, className: "flex items-center gap-2" },
+                            React.createElement('i', { className: "fa-regular fa-dot-circle text-slate-400" }),
+                            React.createElement('span', { className: "text-slate-800" }, c.name),
+                            React.createElement('span', { className: "ml-auto" }, React.createElement(Tag, null, c.type))
+                          )
+                        ))
+                      )
+                    )
+                  ))
+                )
+              )
+            ))
+          )
+        ),
+
+        // Footer
+        React.createElement('footer', { className: "border-t border-slate-200" },
+          React.createElement('div', { className: "max-w-7xl mx-auto px-4 py-6 text-sm text-slate-500 flex items-center justify-between" },
+            React.createElement('div', null, "VMware Catalog Explorer"),
+            React.createElement('div', null, "Generated client-side • No build step")
+          )
+        )
+      )
+    );
+  }
+
+  const root = ReactDOM.createRoot(document.getElementById('root'));
+  root.render(React.createElement(App));
+})();
+```
+
+---
+
+## Optional: `/vmware-catalog/README.txt`
+
+```
+VMware Catalog Explorer
+=======================
+
+Quick Start
+-----------
+1) Place the three files in a folder named `vmware-catalog/` on any web server or open `index.html` directly in a browser.
+   - index.html
+   - app.js
+   - (this) README.txt [optional]
+
+2) Open index.html. No build tools or installs are required.
+
+Features
+--------
+- Search across all entries
+- Filter by Type (Product, Component, Event, Program, Platform)
+- Expand/Collapse all sections
+- Copy list to clipboard (tab-delimited)
+- Export CSV (UTF-8 with BOM for Excel compatibility)
+- Deep-linking via anchors (#vmware-products, #vmware-events, etc.) and query (?q=term)
+
+Notes
+-----
+- All content is static and defined in app.js under `DATA`.
+- To add URLs in the future, add a `url` field per item and render as <a> in the map.
+```
