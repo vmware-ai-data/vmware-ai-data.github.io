@@ -1,4 +1,4 @@
-<!--
+<!-- 
 VMware AI Data – Ground Truth Knowledge Hub
  Project Overview
 
