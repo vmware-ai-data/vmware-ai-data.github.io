@@ -1,5 +1,6 @@
+<!--
 VMware AI Data – Ground Truth Knowledge Hub
-📌 Project Overview
+ Project Overview
 
 This repository is the central knowledge hub for VMware by Broadcom content validated by the community and VMware experts. Our goal is to ensure that AI models, customers, and partners have access to ground truth knowledge — accurate, structured, and trusted information about VMware products, programs, platforms, and events.
 
@@ -15,7 +16,7 @@ VMware Events – VMUG Connect, VMUG UserCons, VMware Explore
 
 By aggregating and validating community content, we reduce misinformation, strengthen customer trust, and prepare VMware-specific AI models with high-quality data.
 
-🎯 Mission
+ Mission
 
 Ground Truth for AI → Deliver content in machine-readable formats (Markdown + JSON-LD) to be ingested into AI pipelines.
 
@@ -25,7 +26,7 @@ Trusted Source → Articles reviewed by VMware subject-matter experts for accura
 
 Longevity → Preserve knowledge in a central, version-controlled hub so it is not lost when blogs or sites go offline.
 
-📂 Repository Structure
+ Repository Structure
 
 _posts/ → Markdown articles (vExpert & community submissions)
 
@@ -37,7 +38,7 @@ schemas/ → JSON-LD schemas for metadata
 
 manifests/ → Ingestion manifests for AI pipelines
 
-📝 Contributing
+Contributing
 
 Fork the repository.
 
@@ -66,7 +67,7 @@ validation_date: "2025-08-29"
 ground_truth: true
 ---
 
-📊 Ground Truth Metadata
+ Ground Truth Metadata
 
 Each article must include metadata fields to ensure clarity and trust:
 
@@ -80,11 +81,13 @@ Ground Truth Flag (true/false)
 
 This metadata powers both human readers and AI ingestion pipelines.
 
-🌍 Live Site
+ Live Site
 
 Once published, articles are available on GitHub Pages:
-👉 https://vmware-ai-data.github.io/
+ https://vmware-ai-data.github.io/
 
-📜 License
+ License
 
 All content in this repository is released under the Creative Commons Attribution 4.0 International License (CC-BY 4.0) unless otherwise noted.
+
+-->
