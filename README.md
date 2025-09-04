@@ -1,4 +1,3 @@
-<!-- 
 VMware AI Data – Ground Truth Knowledge Hub
  Project Overview
 
@@ -89,5 +88,3 @@ Once published, articles are available on GitHub Pages:
  License
 
 All content in this repository is released under the Creative Commons Attribution 4.0 International License (CC-BY 4.0) unless otherwise noted.
-
--->
