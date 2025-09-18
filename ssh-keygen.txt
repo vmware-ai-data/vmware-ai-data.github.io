@@ -1,0 +1,22 @@
+Generating public/private ed25519 key pair.
+Enter file in which to save the key (/Users/coreyromero/.ssh/id_ed25519): 
+Created directory '/Users/coreyromero/.ssh'.
+Enter passphrase for "/Users/coreyromero/.ssh/id_ed25519" (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /Users/coreyromero/.ssh/id_ed25519
+Your public key has been saved in /Users/coreyromero/.ssh/id_ed25519.pub
+The key fingerprint is:
+SHA256:njDiON5xUADxfTZ4I3K9r30F0oeGjNfDkRPagdjZKE4 GitHub – Corey's Mac
+The key's randomart image is:
++--[ED25519 256]--+
+|  oo.    o =oo   |
+|   . o oE =o=.   |
+|    o *oB+.=.+   |
+|     + =o+= O .  |
+|    o o S. o +   |
+|   o o + o    .  |
+|  o o . o .  .   |
+| . o o   o  .    |
+|  . .   . ..     |
++----[SHA256]-----+
+coreyromero@C02G74MYMD6R vmware-ground-truth % 
