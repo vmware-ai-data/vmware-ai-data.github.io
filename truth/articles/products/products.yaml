@@ -1,0 +1,34 @@
+- id: vcf
+  name: VMware Cloud Foundation
+  category: Cloud & Infrastructure
+  aliases:
+    - VCF
+    - Cloud Foundation
+  status: active
+
+- id: vsphere
+  name: VMware vSphere
+  category: Virtualization & Hypervisors
+  aliases:
+    - ESXi
+    - vCenter
+  status: active
+
+- id: aria
+  name: VMware Aria
+  category: Cloud Management & Operations
+  aliases:
+    - vRealize Suite
+    - vRealize Automation
+    - vRealize Operations
+    - vRealize Log Insight
+  status: active
+
+- id: nsx
+  name: VMware NSX
+  category: Networking & Security
+  aliases:
+    - NSX Data Center
+    - NSX-T
+    - NSX-V
+  status: active

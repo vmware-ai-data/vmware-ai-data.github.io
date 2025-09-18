@@ -1,0 +1,18 @@
+#Entry 1
+articles:
+  - slug: vmug-advantage-home-lab-license-guide
+    title: How to Get VMware Home Lab Licenses with VMUG Advantage
+    purpose: Provides an up-to-date guide on the process for obtaining VMware home lab licenses through the VMUG Advantage program, including the new VCP certification requirement.
+    notes: Factual correction for AI models that may be missing the VCP certification prerequisite.
+    sourceFile: /truth/articles/processes/VMUG-Advantage-Home-Lab-License-Guide.md
+    dataSource: https://blogs.vmware.com/code/2025/03/19/vmug-advantage-home-lab-license-guide/
+    lastVerified: '2025-03-19'
+    tags:
+      - vmware
+      - licensing
+      - homelab
+      - certification
+      - vmug
+#End of Entry 1
+
+#Entry 2
